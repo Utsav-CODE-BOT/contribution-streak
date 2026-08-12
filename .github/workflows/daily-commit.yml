@@ -1,0 +1,27 @@
+name: Daily Contribution
+
+on:
+  schedule:
+    - cron: '30 5 * * *' # Runs daily at 05:30 UTC (11:00 AM IST)
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Update streak file
+      run: |
+        echo "Contribution: $(date)" >> streak.txt
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.name "Utsav D"
+        git config --global user.email "ud12714@gmail.com"
+        git add streak.txt
+        git commit -m "daily contribution: $(date)"
+        git push
